@@ -1,0 +1,72 @@
+h1{
+    text-align: center;
+    font-family: Verdana;
+}
+
+body{
+    background-image: url("../media/bgr.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: black;
+}
+
+.wrap{
+    height: 480px;
+    width: 400px;
+    background-color: grey;
+    margin: 0 auto;
+    padding: 1em;
+    border: solid black 3px;
+    border-radius: 7px;
+}
+
+.word{
+    height: 80px;
+    width: 400px;
+    display: flex;
+    background-color: white;
+    border: solid black 1px;
+}
+
+.letter{
+    display: grid;
+    height: 80px;
+    width: 80px;
+    background-color: white;
+    border: solid black 1px;
+    place-items: center;
+    font-family: Verdana;
+    font-size: 32px;
+}
+
+.inputs{
+    display: flex;
+    width: 430px;
+    height: 30px;
+    margin: 1em auto;
+}
+
+#guess{
+    display: block;
+    width: 400px;
+    height: 30px;
+    background-color: grey;
+    border-radius: 7px;
+    color: white;
+}
+
+#submit{
+    display: block;
+    width: 30px;
+    height: 30px;
+    background-color: grey;
+    border-radius: 7px;
+}
+
+.mes{
+    color: white;
+}
+
+p{
+    color: white;
+}

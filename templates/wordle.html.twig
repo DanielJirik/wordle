@@ -1,0 +1,51 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="css/wordle.css">
+    </head>
+    <body>
+        <a href="{{ path('session') }}" style="position:absolute;">reset session</a>
+        <h1>SPŠO WORDLE</h1>        
+        <h1>WORD: {{ word.word }}</h1>       
+
+        {% for message in app.flashes('message') %}
+            <div class="mes">{{ message }}</div>
+        {% endfor %}
+
+        <div class="wrap">
+            {% set count = 0 %}
+            {% for g in guesses %}
+                <div class="word">
+                    {% for l in g|split('') %}
+                        <div class="letter">{{ l|capitalize }}</div>
+                    {% endfor %}
+                </div>
+                {% set count = loop.index %}
+            {% endfor %}
+            
+            {% if count != 6 %}
+                {% for i in 0..(5-count) %}
+                    <div class="word">
+                        {% for l in 0..4 %}
+                            <div class="letter"></div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        
+        {% if status is defined and status is not null %}
+            <a href="{{ path('session') }}">znova</a>
+
+            {% if status == 'lose' %}
+                <p>Bylo to {{ word.word }} debile</p>
+            {% else %}
+                <p>Šikula :)</p>
+            {% endif %}
+        {% else %}        
+            <form class="inputs" method="POST">
+                <input type="text" name="guess" id="guess" maxlength="5" minlength="5" autofocus>
+                <input type="submit" name="submit" value="OK" id="submit">
+            </form>
+        {% endif %}
+    </body>
+</html>
