@@ -19,6 +19,7 @@ services:
         expose:
             - 3306
         volumes:
+            - db_data:/var/lib/mysql
             - .:/mnt
         working_dir: /mnt
         environment:
@@ -34,3 +35,5 @@ services:
                 - WWW_DATA_GID=${WWW_DATA_GID:-orig}
         volumes:
             - .:/workspace
+volumes:
+    db_data:
