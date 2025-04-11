@@ -48,7 +48,7 @@ class WordleController extends AbstractController
                 }
             }
 
-            dd($colors);
+            //dd($colors);
 
 
             $guesses[] = [
@@ -57,7 +57,7 @@ class WordleController extends AbstractController
             ];
 
 
-            $guesses[] = $guess; //"pridej na konec" $arr[] = $foo;
+            //$guesses[] = $guess; //"pridej na konec" $arr[] = $foo;
             $session->set('guesses', $guesses);
 
             if(count($guesses) == 6){                

@@ -5,7 +5,7 @@
     <body>
         <a href="{{ path('session') }}" style="position:absolute;">reset session</a>
         <h1>SPŠO WORDLE</h1>        
-        <h1>WORD: {{ word.word }}</h1>       
+        {# <h1>WORD: {{ word.word }}</h1>        #}
 
         {% for message in app.flashes('message') %}
             <div class="mes">{{ message }}</div>
@@ -15,8 +15,8 @@
             {% set count = 0 %}
             {% for g in guesses %}
                 <div class="word">
-                    {% for l in g|split('') %}
-                        <div class="letter">{{ l|capitalize }}</div>
+                    {% for l in g.guess|split('') %}
+                        <div class="letter {{g.colors[loop.index0]}}">{{ l|capitalize }}</div>
                     {% endfor %}
                 </div>
                 {% set count = loop.index %}
