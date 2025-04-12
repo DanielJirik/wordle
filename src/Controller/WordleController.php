@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class WordleController extends AbstractController
 {
-    #[Route("/wordle", name: "wordle")]
+    #[Route("/", name: "wordle")]
     public function index(EntityManagerInterface $entityManager, RequestStack $requestStack): Response
     {
         $session = $requestStack->getSession();

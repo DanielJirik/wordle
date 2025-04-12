@@ -3,6 +3,10 @@ h1 {
     font-family: Verdana;
 }
 
+html{
+    background-color: white;
+}
+
 body {
     background-image: url("../media/bgr.jpg");
     background-repeat: no-repeat;
