@@ -16,9 +16,7 @@ class WordleController extends AbstractController
     {
         $session = $requestStack->getSession();
 
-        $guesses = $session->get('guesses', []);
-        $guess = "";
-
+        // vygeneruju nebo ziskam slovo ze session
         if(!$session->has('word')){
             $wordArr = $entityManager->getRepository(Wordle::class)->findAll();
             $max = count($wordArr);
@@ -30,56 +28,50 @@ class WordleController extends AbstractController
             $word = $session->get('word');            
         }
 
+        // ziskam co hadal a co to ma byt
+        $guesses = $session->get('guesses', []);
+        $actualWord = mb_strtolower($word->getWord());
+
+        // vyresim co poslal a redirectnu zpatky
         if($_POST != null){
-            $guess = $_POST["guess"];
+            $guess = mb_strtolower($_POST["guess"]);
             
             $colors = [];
             
-            $wordArr = mb_str_split($word->getWord());
+            $wordArr = mb_str_split($actualWord);
+
             foreach (mb_str_split($guess) as $index => $letter) {
-                //is valid
-                //log
                 if ($wordArr[$index] == $letter) {
                     $colors[] = 'green';
-                } else if (str_contains($word->getWord(), $letter)){
+                } else if (str_contains($actualWord, $letter)){
                     $colors[] = 'orange';
                 } else {
                     $colors[] = 'red';
                 }
             }
 
-            //dd($colors);
-
-
             $guesses[] = [
                 'guess' => $guess,
                 'colors' => $colors
             ];
 
-
-            //$guesses[] = $guess; //"pridej na konec" $arr[] = $foo;
             $session->set('guesses', $guesses);
-
-            if(count($guesses) == 6){                
-                if(strtolower($guess) == strtolower($word->getWord())){    
-                    $status = 'win';     
-                } else {
-                    $status = 'lose';
-                }
-            }
-
-            if(strtolower($guess) == strtolower($word->getWord())){    
-                $status = 'win';     
-            }else{
-
-            }
             
-            // return $this->redirectToRoute('wordle');
-        }       
+            return $this->redirectToRoute('wordle');
+        }
+
+        // kontrola posledniho slova, status
+        $lastGuessedWord = empty($guesses) ? "" : mb_strtolower($guesses[count($guesses) - 1]['guess']);
+
+        if($lastGuessedWord == $actualWord){    
+            $status = 'win';     
+        } else if (count($guesses) == 6){
+            $status = 'lose';
+        }
         
         return $this->render('wordle.html.twig', [
             "word" => $word,
-            "guess" => $guess,
+            "guess" => $guess ?? "",
             "guesses" => $guesses,
             "status" => $status ?? null
         ]);

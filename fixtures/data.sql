@@ -21,7 +21,7 @@
 
 LOCK TABLES `wordle` WRITE;
 /*!40000 ALTER TABLE `wordle` DISABLE KEYS */;
-INSERT INTO `wordle` (`id`, `word`) VALUES (1,'košař'),(2,'stark'),(3,'roman'),(4,'háček'),(5,'lsblk'),(6,'cisco'),(7,'linux'),(8,'debug'),(9,'robot'),(10,'mysql'),(11,'joooo'),(12,'login'),(13,'class'),(14,'admin'),(15,'tomsn'),(16,'fanos'),(17,'marek'),(18,'tiger'),(19,'niger'),(20,'gypsy'),(21,'route'),(22,'trace'),(23,'mkdir'),(24,'rmdir'),(25,'samba'),(26,'karel'),(27,'pavel'),(28,'quota'),(29,'chmod'),(30,'fstab'),(31,'lemka'),(32,'mýdlo'),(33,'jádra'),(34,'glock'),(35,'bahno'),(36,'bláto'),(37,'obrna'),(38,'klaus'),(39,'milan'),(40,'češka'),(41,'mrdka');
+INSERT INTO `wordle` (`id`, `word`) VALUES (1,'košař'),(2,'stark'),(3,'roman'),(4,'háček'),(5,'lsblk'),(6,'cisco'),(7,'linux'),(8,'debug'),(9,'robot'),(10,'mysql'),(11,'joooo'),(12,'login'),(13,'class'),(14,'admin'),(15,'tomsn'),(16,'fanos'),(17,'marek'),(18,'tiger'),(19,'niger'),(20,'gypsy'),(21,'route'),(22,'trace'),(23,'mkdir'),(24,'rmdir'),(25,'samba'),(26,'karel'),(27,'pavel'),(28,'quota'),(29,'chmod'),(30,'fstab'),(31,'lemka'),(32,'mýdlo'),(33,'jádra'),(34,'glock'),(35,'bahno'),(36,'bláto'),(37,'obrna'),(38,'klaus'),(39,'milan'),(40,'češka'),(41,'mrdka'),(42,'iptak'),(43,'rakle'),(44,'alena'),(45,'tomek'),(46,'odpad'),(47,'array'),(48,'games'),(49,'cloud'),(50,'power'),(51,'ferst');
 /*!40000 ALTER TABLE `wordle` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -34,4 +34,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-11  9:25:31
+-- Dump completed on 2025-04-12 14:56:27
