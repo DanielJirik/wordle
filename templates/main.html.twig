@@ -1,29 +1,59 @@
 {% extends "base.html.twig" %}
-{% block body %}
-    <div  class="telo">
-        <h1>Milý studente!</h1>
-        <p>
-            Toto je vývojové prostředí pro předmět PVA. Právě se Ti jej podařilo kompletně rozběhnout. Gratuluji. ☺
-        </p>
-        <p>
-            S tímto prostředím se budeme potkávat po celý rok a proto je dobré, aby ses s ním trochu seznámil.
-            Rozhlédni se po aplikaci a zkus si s ní trochu pohrát. Prozkoumej útroby. Zjisti co slouží k čemu.
-            Klidně si zkus aplikaci modifikovat a upravit ke svému obrazu. Většina provedených změn by měla mít
-            okamžitý efekt.
-        </p>
-        <div class="ptacek-kontejner">
-            <object class="ptacek" type="image/svg+xml" data="{{ asset('svg/ptacek.svg') }}"></object>
-            <div id="prepinac">
-                <a href="#">Myslím, že ten pták je infantilní!</a>
-            </div>
-        </div>
-        <div class="sloupek-kontejner">
-            <video class="sloupek"><source src="{{ asset('media/sloupek.mp4') }}" type="video/mp4" /></video>
-            <div id="prepinac-zpet">
-                <a href="#">Tvl, to raději toho ptáka!</a>
-            </div>
-        </div>
 
+{% block nav %}
+    <nav>
+        <span>
+            {% if app.user %}
+                Přihlášen jako: {{ app.user.username }};
+                <a href="{{ path('app_logout') }}">Odhlásit se</a>
+                <a href="{{ path('settings') }}">{% include 'svg/settings.html.twig' %}</a>
+            {% else %}
+                <a href="{{ path('app_login') }}">Přihlásit se</a>
+                <a href="{{ path('app_register')}}">Zaregistrovat se</a>
+            {% endif %}
+        </span>
+    </nav>
+{% endblock %}
+
+{% block body %}
+    <h1>Vítej v I4 SPŠO Wordle</h1>
+    <p>
+        {% if app.user %}
+            {% if userWordleAnswer.status == 'win' %}
+                Dnešní slovo už jsi zvládl.
+            {% elseif userWordleAnswer.status == 'lose' %}
+                Dnešní slovo si nedal. imagine.<br>
+            {% else %}
+                Dnešní slovo ještě nemáš.<br>
+            {% endif %}
+            <p>Můžeš se podívat <a href="{{ path('wordle') }}">zde</a>!</p>
+        {% endif %}
+    </p>
+    <div class="leaderboard">
+        <table>
+            <thead>
+                <tr>
+                    <th>Uživatel</th>
+                    <th>Hrál dnes</th>
+                    <th>Celkem uhodnuto</th>
+                    <th>Přesnost</th>
+                    <th>Průměrný pokus</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for player in leaderboard %}
+                    <tr>
+                        <td><img src="{{ asset('uploads/' ~ player.avatar)}}" width="50" height="50">{{ player.username }}</td>
+                        <td>
+                            {{ player.playedToday }}
+                            {% if userWordleAnswer and player.playedToday == 'win' and userWordleAnswer.status == 'win' %} <a href="{{ path('wordle', {'user': player.id}) }}">{% include 'svg/eye.html.twig' %}</a>{% endif %}
+                        </td>
+                        <td>{{ player.totalGuessed }}</td>
+                        <td>{{ player.accuracy }}%</td>
+                        <td>{{ player.avgTry }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
-    <audio id="sound"><source src="{{ asset('media/tweet.mp3') }}" type="audio/mpeg"></audio>
 {% endblock %}

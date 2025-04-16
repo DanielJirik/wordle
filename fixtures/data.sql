@@ -16,13 +16,43 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Dumping data for table `user`
+--
+
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` (`id`, `username`, `roles`, `password`, `avatar`) VALUES (1,'admin','[\"ROLE_ADMIN\"]','$2y$13$EyJ4j4EnMi1GJD.S/iB1YOfQCyVa5B5wXJj.O1d4VtPLKRINRZkIC',NULL),(2,'pepik','[]','$2y$13$obX81BikkP3G01mlBCQXWuroH4swCLUtv5Zn6nwEG8MwNdpi9FTt2','6800235340565.png');
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `user_wordle_answer`
+--
+
+LOCK TABLES `user_wordle_answer` WRITE;
+/*!40000 ALTER TABLE `user_wordle_answer` DISABLE KEYS */;
+INSERT INTO `user_wordle_answer` (`id`, `attempts`, `guesses`, `user_id`, `wordle_answer_id`, `status`) VALUES (2,2,'[{\"guess\": \"košař\", \"colors\": [\"red\", \"red\", \"red\", \"red\", \"red\"]}, {\"guess\": \"linux\", \"colors\": [\"green\", \"green\", \"green\", \"green\", \"green\"]}]',1,2,'win'),(3,3,'[{\"guess\": \"košař\", \"colors\": [\"red\", \"red\", \"red\", \"red\", \"red\"]}, {\"guess\": \"tomsn\", \"colors\": [\"red\", \"red\", \"red\", \"red\", \"orange\"]}, {\"guess\": \"linux\", \"colors\": [\"green\", \"green\", \"green\", \"green\", \"green\"]}]',2,2,'win');
+/*!40000 ALTER TABLE `user_wordle_answer` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Dumping data for table `wordle`
 --
 
 LOCK TABLES `wordle` WRITE;
 /*!40000 ALTER TABLE `wordle` DISABLE KEYS */;
-INSERT INTO `wordle` (`id`, `word`) VALUES (1,'košař'),(2,'stark'),(3,'roman'),(4,'háček'),(5,'lsblk'),(6,'cisco'),(7,'linux'),(8,'debug'),(9,'robot'),(10,'mysql'),(11,'joooo'),(12,'login'),(13,'class'),(14,'admin'),(15,'tomsn'),(16,'fanos'),(17,'marek'),(18,'tiger'),(19,'niger'),(20,'gypsy'),(21,'route'),(22,'trace'),(23,'mkdir'),(24,'rmdir'),(25,'samba'),(26,'karel'),(27,'pavel'),(28,'quota'),(29,'chmod'),(30,'fstab'),(31,'lemka'),(32,'mýdlo'),(33,'jádra'),(34,'glock'),(35,'bahno'),(36,'bláto'),(37,'obrna'),(38,'klaus'),(39,'milan'),(40,'češka'),(41,'mrdka'),(42,'iptak'),(43,'rakle'),(44,'alena'),(45,'tomek'),(46,'odpad'),(47,'array'),(48,'games'),(49,'cloud'),(50,'power'),(51,'ferst');
+INSERT INTO `wordle` (`id`, `word`, `last_used_at`) VALUES (1,'košař',NULL),(2,'stark',NULL),(3,'roman',NULL),(4,'háček',NULL),(5,'lsblk',NULL),(6,'cisco',NULL),(7,'linux','2025-04-16'),(8,'debug',NULL),(9,'robot',NULL),(10,'mysql',NULL),(11,'joooo',NULL),(12,'login',NULL),(13,'class',NULL),(14,'admin',NULL),(15,'tomsn',NULL),(16,'fanos',NULL),(17,'marek',NULL),(18,'tiger',NULL),(19,'niger',NULL),(20,'gypsy',NULL),(21,'route',NULL),(22,'trace',NULL),(23,'mkdir',NULL),(24,'rmdir',NULL),(25,'samba',NULL),(26,'karel',NULL),(27,'pavel',NULL),(28,'quota',NULL),(29,'chmod',NULL),(30,'fstab',NULL),(31,'lemka',NULL),(32,'mýdlo',NULL),(33,'jádra',NULL),(34,'glock',NULL),(35,'bahno',NULL),(36,'bláto',NULL),(37,'obrna',NULL),(38,'klaus',NULL),(39,'milan',NULL),(40,'češka',NULL),(41,'mrdka',NULL),(42,'iptak',NULL),(43,'rakle',NULL),(44,'alena',NULL),(45,'tomek',NULL),(46,'odpad',NULL),(47,'array',NULL),(48,'games',NULL),(49,'cloud',NULL),(50,'power',NULL),(51,'ferst',NULL);
 /*!40000 ALTER TABLE `wordle` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `wordle_answer`
+--
+
+LOCK TABLES `wordle_answer` WRITE;
+/*!40000 ALTER TABLE `wordle_answer` DISABLE KEYS */;
+INSERT INTO `wordle_answer` (`id`, `date`, `wordle_id`) VALUES (2,'2025-04-16',7);
+/*!40000 ALTER TABLE `wordle_answer` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -34,4 +64,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-12 14:56:27
+-- Dump completed on 2025-04-16 21:40:49

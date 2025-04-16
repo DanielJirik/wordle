@@ -1,0 +1,24 @@
+{% extends "base.html.twig" %}
+
+{% block nav %}
+    <nav>
+        <span>
+            {% if app.user %}
+                Přihlášen jako: {{ app.user.username }};
+                <a href="{{ path('app_logout') }}">Odhlásit se</a>
+                <a href="{{ path('settings') }}">{% include 'svg/settings.html.twig' %}</a>
+            {% else %}
+                <a href="{{ path('app_login') }}">Přihlásit se</a>
+                <a href="{{ path('app_register')}}">Zaregistrovat se</a>
+            {% endif %}
+        </span>
+    </nav>
+{% endblock %}
+
+{% block body %}
+    <h1>Nastavení</h1>
+    {{ form_start(form) }}
+        {{ form_row(form) }}
+        <button type="submit">Nastavit</button>
+    {{ form_end(form) }}
+{% endblock %}

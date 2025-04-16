@@ -1,2 +1,2 @@
-import "./ptacek.js"
+import "./popup.js"
 

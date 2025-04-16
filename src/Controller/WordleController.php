@@ -2,87 +2,69 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\Wordle;
-use Symfony\Component\HttpFoundation\RequestStack;
+use App\Services\WordleService;
 
 class WordleController extends AbstractController
 {
-    #[Route("/", name: "wordle")]
-    public function index(EntityManagerInterface $entityManager, RequestStack $requestStack): Response
+    #[Route("/wordle", name: "wordle")]
+    public function wordle(WordleService $wordleService): Response
     {
-        $session = $requestStack->getSession();
+        $wordleAnswer = $wordleService->getTodaysWordleAnswer();
+        $word = $wordleAnswer->getWordle()->getWord();
+        $userWordleAnswer = $wordleService->getUserWordleAnswer($wordleAnswer, $this->getUser());
 
-        // vygeneruju nebo ziskam slovo ze session
-        if(!$session->has('word')){
-            $wordArr = $entityManager->getRepository(Wordle::class)->findAll();
-            $max = count($wordArr);
-            $randomIndex = rand(0, $max - 1); 
-            $word = $wordArr[$randomIndex];
-
-            $session->set('word', $word);
-        }else{
-            $word = $session->get('word');            
+        if (isset($_GET['user']) && $userWordleAnswer->getStatus() == 'win') {
+            $user = $this->entityManager->find(User::class, $_GET['user']);
+            if ($user == null) {
+                return $this->flashRedirect('error', 'Uzivatel nenalezen.', 'wordle');
+            }
+            $userWordleAnswer = $wordleService->getUserWordleAnswer($wordleAnswer, $user);
         }
+        
+        $guesses = $userWordleAnswer->getGuesses();
 
-        // ziskam co hadal a co to ma byt
-        $guesses = $session->get('guesses', []);
-        $actualWord = mb_strtolower($word->getWord());
-
-        // vyresim co poslal a redirectnu zpatky
         if($_POST != null){
             $guess = mb_strtolower($_POST["guess"]);
             
-            $colors = [];
-            
-            $wordArr = mb_str_split($actualWord);
-
-            foreach (mb_str_split($guess) as $index => $letter) {
-                if ($wordArr[$index] == $letter) {
-                    $colors[] = 'green';
-                } else if (str_contains($actualWord, $letter)){
-                    $colors[] = 'orange';
-                } else {
-                    $colors[] = 'red';
-                }
+            if (isset($user) && $user->getId() != $this->getUserInstance()->getId()) {
+                return $this->flashRedirect('error', 'nehraj za ostatni cavo.', 'wordle');
+            }
+            if (mb_strlen($guess) != 5) {
+                return $this->flashRedirect('error', '5 pismen debile.', 'wordle');
+            }
+            if ($userWordleAnswer->getStatus() != 'playing') {
+                return $this->flashRedirect('error', 'Uz si dohral karecku.', 'wordle');
             }
 
-            $guesses[] = [
-                'guess' => $guess,
-                'colors' => $colors
-            ];
+            $guesses = $wordleService->getGuesses($guesses, $word, $guess);
 
-            $session->set('guesses', $guesses);
+            $userWordleAnswer->setGuesses($guesses);
+            $userWordleAnswer->setAttempts($userWordleAnswer->getAttempts() + 1);
+
+            $lastGuessedWord = empty($guesses) ? "" : $guesses[count($guesses) - 1]['guess'];
+            $status = null;
+            if($lastGuessedWord == $word){
+                $status = 'win';     
+            } else if (count($guesses) == 6){
+                $status = 'lose';
+            }
+
+            if ($status) {
+                $userWordleAnswer->setStatus($status);
+            }
+
+            $this->entityManager->flush();
             
             return $this->redirectToRoute('wordle');
-        }
-
-        // kontrola posledniho slova, status
-        $lastGuessedWord = empty($guesses) ? "" : mb_strtolower($guesses[count($guesses) - 1]['guess']);
-
-        if($lastGuessedWord == $actualWord){    
-            $status = 'win';     
-        } else if (count($guesses) == 6){
-            $status = 'lose';
         }
         
         return $this->render('wordle.html.twig', [
             "word" => $word,
-            "guess" => $guess ?? "",
             "guesses" => $guesses,
-            "status" => $status ?? null
+            "status" => $userWordleAnswer->getStatus()
         ]);
-    }
-
-    #[Route("/session", name: "session")]
-    public function session(RequestStack $requestStack): Response
-    {
-        $session = $requestStack->getSession();
-        $session->remove('guesses');
-        $session->remove('word');
-        return $this->redirectToRoute('wordle');
     }
 }
