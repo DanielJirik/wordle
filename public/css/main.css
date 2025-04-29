@@ -12,7 +12,9 @@
 }
 
 html{
-    background-color: var(--color-white);
+    background-color: darkmagenta;   
+    font-family: Verdana;
+    color: white;
 }
 
 .closeTopRight{
@@ -26,6 +28,8 @@ html{
     top: 10px;
     left: 50%;
     transform: translateX(-50%);
+    z-index: 9999;
+    color: black;
 }
 .popup{
     background-color: var(--color-white);
@@ -40,7 +44,6 @@ html{
     margin-bottom: 1em;
     border-radius: 1em;
     position: relative;
-    z-index: 100;
 }
 .popup > div, .popup > svg:not(.close) {
     flex-shrink: 0;

@@ -16,7 +16,7 @@ class WordleController extends AbstractController
         $word = $wordleAnswer->getWordle()->getWord();
         $userWordleAnswer = $wordleService->getUserWordleAnswer($wordleAnswer, $this->getUser());
 
-        if (isset($_GET['user']) && $userWordleAnswer->getStatus() == 'win') {
+        if (isset($_GET['user']) && $userWordleAnswer->getStatus() != 'playing') {
             $user = $this->entityManager->find(User::class, $_GET['user']);
             if ($user == null) {
                 return $this->flashRedirect('error', 'Uzivatel nenalezen.', 'wordle');

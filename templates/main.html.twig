@@ -1,10 +1,14 @@
 {% extends "base.html.twig" %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="css/profile.css">
+{% endblock %}
+
 {% block nav %}
     <nav>
         <span>
             {% if app.user %}
-                Přihlášen jako: {{ app.user.username }};
+                Přihlášen jako: <span id="username">{{ app.user.username }}</span>
                 <a href="{{ path('app_logout') }}">Odhlásit se</a>
                 <a href="{{ path('settings') }}">{% include 'svg/settings.html.twig' %}</a>
             {% else %}
@@ -17,7 +21,7 @@
 
 {% block body %}
     <h1>Vítej v I4 SPŠO Wordle</h1>
-    <p>
+    <p id="status">
         {% if app.user %}
             {% if userWordleAnswer.status == 'win' %}
                 Dnešní slovo už jsi zvládl.
@@ -30,23 +34,24 @@
         {% endif %}
     </p>
     <div class="leaderboard">
+        <h1>LEADERBOARD</h1>
         <table>
             <thead>
                 <tr>
                     <th>Uživatel</th>
                     <th>Hrál dnes</th>
                     <th>Celkem uhodnuto</th>
-                    <th>Přesnost</th>
+                    <th>Winrate</th>
                     <th>Průměrný pokus</th>
                 </tr>
             </thead>
             <tbody>
                 {% for player in leaderboard %}
                     <tr>
-                        <td><img src="{{ asset('uploads/' ~ player.avatar)}}" width="50" height="50">{{ player.username }}</td>
+                        <td><img src="{{ asset('uploads/' ~ player.avatar)}}" width="50" height="50"><br>{{ player.username }}</br></td>
                         <td>
                             {{ player.playedToday }}
-                            {% if userWordleAnswer and player.playedToday == 'win' and userWordleAnswer.status == 'win' %} <a href="{{ path('wordle', {'user': player.id}) }}">{% include 'svg/eye.html.twig' %}</a>{% endif %}
+                            {% if userWordleAnswer and player.playedToday != '—' and userWordleAnswer.status != 'playing' %} <a href="{{ path('wordle', {'user': player.id}) }}">{% include 'svg/eye.html.twig' %}</a>{% endif %}
                         </td>
                         <td>{{ player.totalGuessed }}</td>
                         <td>{{ player.accuracy }}%</td>

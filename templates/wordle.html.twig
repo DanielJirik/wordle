@@ -6,28 +6,30 @@
 
 {% block body %}
     <a href="{{ path('main') }}">Zpátky</a>
-    <h1>SPŠO WORDLE</h1>
-
+    
     <div class="wrap">
-        {% set count = 0 %}
-        {% for g in guesses %}
+        <div class="guesses">
+            {% set count = 0 %}
+            {% for g in guesses %}
             <div class="word">
                 {% for l in g.guess|split('') %}
                     <div class="letter {{g.colors[loop.index0]}}">{{ l|capitalize }}</div>
                 {% endfor %}
             </div>
             {% set count = loop.index %}
-        {% endfor %}
-        
-        {% if count != 6 %}
-            {% for i in 0..(5-count) %}
-                <div class="word">
-                    {% for l in 0..4 %}
-                        <div class="letter"></div>
-                    {% endfor %}
-                </div>
             {% endfor %}
-        {% endif %}
+        
+            {% if count != 6 %}
+                {% for i in 0..(5-count) %}
+                    <div class="word">
+                        {% for l in 0..4 %}
+                           <div class="letter"></div>
+                        {% endfor %}
+                    </div>
+                 {% endfor %}
+            {% endif %}
+        </div>
+        
     </div>
     
     {% if status == 'playing' %}
@@ -36,8 +38,8 @@
             <input type="submit" name="submit" value="OK" id="submit">
         </form>
     {% elseif status == 'win' %}
-        <p style="text-align:center;">Šikula :)</p>
+        <p style="text-align:center; font-size: 30px;">Šikula :)</p>
     {% else %}
-        <p style="text-align:center;">Bylo to {{ word.word }} debile</p>
+        <p style="text-align:center; font-size: 30px;">Bylo to <span style="font-weight: 700;">{{ word }}</span> debile</p>
     {% endif %}
 {% endblock %}

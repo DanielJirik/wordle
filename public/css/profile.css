@@ -1,0 +1,58 @@
+nav{
+    height: 5%;
+    background-color: deeppink;
+    padding: 13px 10px;
+}
+
+nav a{    
+    float: right;
+    text-align: center;
+    margin: 0 10px;
+    text-decoration: none;
+    color: white;
+}
+
+#username{
+    font-weight: 1000;
+}
+
+h1{
+    text-align: center;
+    margin  : 10px;
+    font-weight: 700;    
+}
+
+p{
+    text-align: center;
+}
+
+a{
+    text-decoration: none;
+    color: darkorange;
+}
+
+/*table*/
+.leaderboard{
+    width: 75%;
+    height: 75%;
+    margin: 4em auto auto auto;
+}
+
+table{
+    margin: auto auto;    
+    text-align: center;
+    vertical-align: middle;
+}
+
+td{
+    padding: .3em 0;
+}
+
+th{
+    font-weight: 700;
+    padding: 0 2em;
+}
+
+tr{
+    margin: 1em 0;
+}
