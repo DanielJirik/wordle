@@ -31,8 +31,8 @@ services:
         build:
             context: docker/node
             args:
-                - WWW_DATA_UID=${WWW_DATA_UID:-orig}
-                - WWW_DATA_GID=${WWW_DATA_GID:-orig}
+                - API_WWW_DATA_UID=${WWW_DATA_UID:-orig}
+                - API_WWW_DATA_GID=${WWW_DATA_GID:-orig}
         volumes:
             - .:/workspace
 volumes:
