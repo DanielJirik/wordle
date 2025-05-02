@@ -16,6 +16,7 @@ a{
 html{
     background-color: black;
     color: white;
+    height: 100vh;
 }
 
 body {
@@ -23,6 +24,7 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     background-color:darkmagenta;
+    height: 100%;
 }
 
 .wrap {

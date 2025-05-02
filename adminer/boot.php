@@ -174,6 +174,8 @@ if (defined("SID") && session_status() !== PHP_SESSION_ACTIVE){
     session_start();
 }
 
+ini_set('display_errors', false);
+
 if (isset($_GET['username']) && is_string($_GET['username']) && !isset($_GET['db'])) {
     $database = (new AdminerLoginPasswordLess())->database();
     $queryString = 'username='.urlencode($_GET['username']).'&db='.urlencode($database);

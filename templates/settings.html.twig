@@ -1,7 +1,7 @@
 {% extends "base.html.twig" %}
 
 {% block nav %}
-    <nav>
+    {# <nav>
         <span>
             {% if app.user %}
                 Přihlášen jako: {{ app.user.username }};
@@ -12,11 +12,16 @@
                 <a href="{{ path('app_register')}}">Zaregistrovat se</a>
             {% endif %}
         </span>
-    </nav>
+    </nav> #}
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="css/register.css">
 {% endblock %}
 
 {% block body %}
     <h1>Nastavení</h1>
+    <p>Nahraj si nejaky velmi sexy obrazek.</p>
     {{ form_start(form) }}
         {{ form_row(form) }}
         <button type="submit">Nastavit</button>

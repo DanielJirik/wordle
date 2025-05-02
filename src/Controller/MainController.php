@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\UserWordleAnswer;
 use App\Form\SettingsType;
 use App\Services\WordleService;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -25,11 +26,11 @@ class MainController extends AbstractController
         $users = $this->entityManager->getRepository(User::class)->findAll();
 
         foreach ($users as $user) {
-            $userAnswers = $user->getUserWordleAnswers();
+            $userAnswers = array_filter($user->getUserWordleAnswers()->toArray(), fn($a) => $a->getAttempts() > 0);
 
             $totalGames = count($userAnswers);
             $totalWins = 0;
-            $totalTriesOnWins = 0;
+            $totalTries = 0;
             $playedToday = null;
 
             foreach ($userAnswers as $answer) {
@@ -37,14 +38,15 @@ class MainController extends AbstractController
                     $playedToday = $answer->getStatus() === 'playing' ? '—' : $answer->getStatus();
                 }
 
+                $totalTries += $answer->getAttempts();
+
                 if ($answer->getStatus() === 'win') {
                     $totalWins++;
-                    $totalTriesOnWins += $answer->getAttempts();
                 }
             }
 
-            $accuracy = $totalGames > 0 ? round(($totalWins / $totalGames) * 100, 1) : 0;
-            $avgTry = $totalWins > 0 ? round($totalTriesOnWins / $totalWins, 2) : '—';
+            $accuracy = $totalGames > 0 ? round(($totalWins / $totalGames) * 100, 1) : '—';
+            $avgTry = $totalWins > 0 ? round($totalTries / $totalWins, 2) : '—';
 
             $leaderboard[] = [
                 'username' => $user->getUsername(),
@@ -57,7 +59,6 @@ class MainController extends AbstractController
             ];
         }
 
-        // Optional: sort leaderboard by most guessed, or lowest avgTry, etc.
         usort($leaderboard, fn($a, $b) => $b['totalGuessed'] <=> $a['totalGuessed']);
 
         return $this->render('main.html.twig', [

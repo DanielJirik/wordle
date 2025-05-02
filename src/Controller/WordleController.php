@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Wordle;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Services\WordleService;
@@ -37,6 +38,9 @@ class WordleController extends AbstractController
             }
             if ($userWordleAnswer->getStatus() != 'playing') {
                 return $this->flashRedirect('error', 'Uz si dohral karecku.', 'wordle');
+            }
+            if ($this->entityManager->getRepository(Wordle::class)->findOneBy(['word' => $guess]) === null) {
+                return $this->flashRedirect('error', 'Sr to slovo neznam.. Zkus třeba glock', 'wordle');
             }
 
             $guesses = $wordleService->getGuesses($guesses, $word, $guess);
