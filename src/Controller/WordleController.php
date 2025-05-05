@@ -6,7 +6,7 @@ use App\Entity\User;
 use App\Entity\Wordle;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Services\WordleService;
+use App\Service\WordleService;
 
 class WordleController extends AbstractController
 {
