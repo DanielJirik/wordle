@@ -59,7 +59,9 @@ class MainController extends AbstractController
             ];
         }
 
-        usort($leaderboard, fn($a, $b) => $b['totalGuessed'] <=> $a['totalGuessed']);
+        usort($leaderboard, function ($a, $b) {
+            return ($b['totalGuessed'] <=> $a['totalGuessed']) ?: ($a['avgTry'] <=> $b['avgTry']);
+        });
 
         return $this->render('main.html.twig', [
             'wordleAnswer' => $todaysWordleAnswer,
